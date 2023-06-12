@@ -42,5 +42,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
+      - name: Install dependencies
+        run: pnpm install
+
       - name: Deploy
         run: pnpm run deploy
