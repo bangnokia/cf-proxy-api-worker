@@ -19,13 +19,9 @@ export default {
     let targetUrl;
 
     if (url.searchParams.get('url')) {
-      // If the URL is passed as a query parameter, use that
       targetUrl = url.searchParams.get('url');
     } else {
-      // we get the path without the leading slash
       const path = url.pathname.slice(1);
-      console.log('the path is: ', path)
-      // decode base64 the path
       targetUrl = atob(path);
     }
 
@@ -43,7 +39,6 @@ export default {
 
     const response = await fetch(targetUrl, requestOptions)
 
-    // Create a new response with the target URL's response body and headers
     const corsHeaders = {
       'Access-Control-Allow-Origin': '*', // Allow all origins (you can customize this if needed)
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
@@ -53,10 +48,10 @@ export default {
     return new Response(response.body, {
       status: response.status,
       statusText: response.statusText,
-      headers: {
-        ...response.headers,
-        ...corsHeaders,
-      },
+      headers: new Headers([
+        ...response.headers.entries(),
+        ...Object.entries(corsHeaders),
+      ])
     })
   }
 };
