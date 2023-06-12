@@ -11,7 +11,12 @@ jobs:
     name: Deploy
     steps:
       - uses: actions/checkout@v2
+
       - name: Publish
-        uses: cloudflare/wrangler-action@2.0.0
+        uses: actions/setup-node@v3
         with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
+          node-version: latest
+          cache: "pnpm"
+
+      - run: pnpm install
+      - run: pnpm run deploy
