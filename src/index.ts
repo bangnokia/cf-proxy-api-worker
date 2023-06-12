@@ -1,22 +1,20 @@
+const whitelistPaths = [
+  "/",
+  "/favicon.ico",
+  "/robots.txt",
+]
+
 export default {
   async fetch(request, env, ctx) {
-    const url = new URL(request.url);
+    const url = new URL(request.url)
 
-    if ((url.pathname === '/' || url.pathname === '/favicon.ico') && url.searchParams.get('url') === null) {
-      return new Response('FBI, put your hands up 🦀!', { status: 200 })
+    if (whitelistPaths.includes(url.pathname)) {
+      return new Response("FBI, put your hands up 🦀!", { "status": 401 })
     }
 
-    let targetUrl = url.searchParams.get('url');
-
-    if (!targetUrl) {
-      // here we parse the path as base64 encoded url
-      const path = url.pathname.slice(1);
-      targetUrl = atob(path);
-    }
-
-    if (!targetUrl) {
-      return new Response('Nothing to do', { status: 200 })
-    }
+    // target url is the https:/ + the path of the request and the query string
+    const targetUrl = `https:/${url.pathname}${url.search}`
+    console.log('target url', targetUrl)
 
     const requestOptions = {
       method: request.method,
