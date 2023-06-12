@@ -24,19 +24,20 @@ export default {
 
     const response = await fetch(targetUrl, requestOptions)
 
-    const corsHeaders = {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-    }
-
     return new Response(response.body, {
       status: response.status,
       statusText: response.statusText,
-      headers: new Headers([
-        ...response.headers.entries(),
-        ...Object.entries(corsHeaders),
-      ])
+      headers: modifyResponseHeaders(response.headers),
     })
   }
+}
+
+function modifyResponseHeaders(originalHeaders: Headers): Headers {
+  const headers = new Headers(originalHeaders)
+
+  headers.set('Access-Control-Allow-Origin', '*')
+  headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+  headers.set('Access-Control-Allow-Headers', 'Content-Type')
+
+  return headers
 }
