@@ -1,32 +1,21 @@
-/**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run "npm run dev" in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run "npm run deploy" to publish your worker
- *
- * Learn more at https://developers.cloudflare.com/workers/
- */
-
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
-    if (url.pathname === '/' || url.pathname === '/favicon.ico') {
+    if ((url.pathname === '/' || url.pathname === '/favicon.ico') && url.searchParams.get('url') === null) {
       return new Response('FBI, put your hands up 🦀!', { status: 200 })
     }
 
-    let targetUrl;
+    let targetUrl = url.searchParams.get('url');
 
-    if (url.searchParams.get('url')) {
-      targetUrl = url.searchParams.get('url');
-    } else {
+    if (!targetUrl) {
+      // here we parse the path as base64 encoded url
       const path = url.pathname.slice(1);
       targetUrl = atob(path);
     }
 
     if (!targetUrl) {
-      return new Response('Missing target URL', { status: 400 })
+      return new Response('Nothing to do', { status: 200 })
     }
 
     const requestOptions = {
