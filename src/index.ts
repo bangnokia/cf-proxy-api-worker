@@ -14,7 +14,6 @@ export default {
 
     // target url is the https:/ + the path of the request and the query string
     const targetUrl = `https:/${url.pathname}${url.search}`
-    console.log('target url', targetUrl)
 
     const requestOptions = {
       method: request.method,
@@ -41,4 +40,4 @@ export default {
       ])
     })
   }
-};
+}
