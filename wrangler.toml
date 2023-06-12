@@ -1,0 +1,8 @@
+name = "proxy"
+main = "src/index.ts"
+compatibility_date = "2023-06-12"
+usage_model = "bundled"
+env = { }
+
+[triggers]
+crons = [ ]
