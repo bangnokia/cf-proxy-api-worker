@@ -1,4 +1,4 @@
-name = "proxy"
+name = "proxy-api"
 main = "src/index.ts"
 compatibility_date = "2023-06-12"
 usage_model = "bundled"
