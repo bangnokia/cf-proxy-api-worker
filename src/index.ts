@@ -29,6 +29,13 @@ export default {
       headers: request.headers,
     }
 
+    // Change User-Agent for RetroAchievements
+    if (targetUrl.includes('retroachievements')) {
+      const headers = new Headers(request.headers)
+      headers.set('User-Agent', 'Rebit')
+      requestOptions.headers = headers
+    }
+
     // Include body for POST, PUT, PATCH requests
     if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(request.method)) {
       requestOptions.body = request.body
