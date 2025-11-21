@@ -24,12 +24,14 @@ export default {
       targetUrl = `https:/${url.pathname}${url.search}`
     }
 
-    const requestOptions = {
+    const requestOptions: RequestInit = {
       method: request.method,
-      headers: {
-        ...request.headers,
-        'Origin': targetUrl,
-      },
+      headers: request.headers,
+    }
+
+    // Include body for POST, PUT, PATCH requests
+    if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(request.method)) {
+      requestOptions.body = request.body
     }
 
     const response = await fetch(targetUrl, requestOptions)
